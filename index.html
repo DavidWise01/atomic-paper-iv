@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atomic Papers · IV of IV — The Surface Is All You Touch</title>
+<style>
+  :root{
+    --space:#0C1016; --space-2:#141A22; --space-3:#1C242E;
+    --ink:#E6ECF3; --ink-soft:#8B98A8;
+    --cloud:#4FA8D8; --cloud-br:#6FC4EE; --cloud-deep:#2E6E96;
+    --core:#D67A33; --probe:#D7A52E;
+    --rule:#222B36; --rule-2:#313D4A;
+    --lit:#6FB87E; --bri:#D2A24B; --spec:#D2705F;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--space);color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    font-size:18px;line-height:1.58;-webkit-font-smoothing:antialiased}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}
+  :focus-visible{outline:2px solid var(--cloud);outline-offset:3px}
+  .wrap{max-width:880px;margin:0 auto;padding:0 30px}
+
+  header.mast{padding:54px 0 30px;border-bottom:2px solid var(--cloud)}
+  .series{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--cloud);margin:0 0 22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .series b{color:var(--ink-soft);font-weight:400}
+  h1{font-size:clamp(26px,4.4vw,40px);line-height:1.08;margin:0;font-weight:600;letter-spacing:.005em}
+  .abstract{max-width:62ch;margin:18px 0 0;font-size:18px}
+  .priorlink{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:var(--ink-soft);margin:14px 0 0}
+  .byline{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;letter-spacing:.06em;color:var(--ink-soft);margin:8px 0 0}
+
+  .sig{margin:30px 0 0;padding:20px 20px 14px;background:var(--space-2);border:1px solid var(--rule-2)}
+  .sig svg{display:block;width:100%;height:auto}
+  .sig .cap{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.04em;color:var(--ink-soft);margin:10px 2px 0;line-height:1.5}
+  .sig .cap b{color:var(--cloud);font-weight:600}
+  .sig .cap .c{color:var(--core);font-weight:600}
+  .sig .cap .p{color:var(--probe);font-weight:600}
+  .lab{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;fill:var(--ink-soft)}
+  .lab-cl{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;fill:var(--cloud);font-weight:700}
+  .lab-co{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;fill:var(--core);font-weight:700}
+  .lab-p{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;fill:var(--probe);font-weight:700}
+  .nucleus{fill:var(--core)}
+  .observer{fill:var(--cloud-br)}
+  .probe{stroke:var(--probe);stroke-width:1.8;fill:none}
+  .gapline{stroke:var(--rule-2);stroke-width:1.4;stroke-dasharray:5 4}
+
+  .legend{margin:26px 0 0;display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center}
+  .legend .lt{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-right:2px}
+  .schip{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border:1px solid;background:transparent;cursor:pointer}
+  .schip[data-s="lit"]{color:var(--lit);border-color:var(--lit)}
+  .schip[data-s="bri"]{color:var(--bri);border-color:var(--bri)}
+  .schip[data-s="spec"]{color:var(--spec);border-color:var(--spec)}
+  .schip[aria-pressed="false"]{opacity:.4}
+  .legend .hint{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;color:var(--ink-soft)}
+
+  section{padding:34px 0;border-bottom:1px solid var(--rule)}
+  .snum{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--cloud);letter-spacing:.18em}
+  h2{font-size:clamp(19px,3vw,25px);margin:4px 0 0;font-weight:600;letter-spacing:.01em}
+  h2 .kicker{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-left:10px;font-weight:400}
+  section p{margin:14px 0 0;max-width:66ch}
+  .central{border-left:3px solid var(--cloud)}
+
+  .formal{margin:16px 0 0;padding:13px 16px;background:var(--space-3);border:1px solid var(--rule-2);font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14.5px;line-height:1.7}
+  .formal .eq{font-size:16px;color:var(--ink)}
+  .formal .gl{color:var(--ink-soft);font-size:12.5px}
+  .restated{margin:13px 0 0;padding:11px 15px;background:var(--space-2);border-left:3px solid var(--rule-2);font-size:15.5px}
+  .restated b{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:400;display:block;margin-bottom:4px}
+
+  .tags{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border:1px solid}
+  .tag.lit{color:var(--lit);border-color:var(--lit)}
+  .tag.bri{color:var(--bri);border-color:var(--bri)}
+  .tag.spec{color:var(--spec);border-color:var(--spec)}
+  .test{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;color:var(--ink-soft);margin:10px 0 0;padding-left:14px;border-left:2px solid var(--rule-2)}
+  .test b{color:var(--cloud);font-weight:600}
+  .dim{opacity:.22;transition:opacity .2s ease}
+
+  .fig{margin:30px 0 6px;padding:22px 18px 14px;background:var(--space-2);border:1px solid var(--rule-2)}
+  .fig svg{display:block;width:100%;height:auto}
+  .fig .figcap{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;color:var(--ink-soft);margin:12px 4px 0;line-height:1.55}
+  .panel-s{fill:var(--space-3);stroke:var(--cloud-deep);stroke-width:1.6}
+  .panel-c{fill:var(--space-3);stroke:var(--rule-2);stroke-width:1.4}
+  .divider{stroke:var(--rule-2);stroke-width:1.2;stroke-dasharray:5 4}
+  .flab{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;fill:var(--ink)}
+  .flab-s{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;fill:var(--ink-soft)}
+  .flab-cl{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;fill:var(--cloud)}
+  .flab-co{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;fill:var(--core)}
+
+  .closer{padding:34px 0 0;border-bottom:0}
+  .closer p{font-size:19px;max-width:64ch}
+  .closer .em{font-style:italic}
+  .capstone{margin:20px 0 0;padding:18px 20px;background:var(--space-2);border:1px solid var(--rule-2);border-top:3px solid var(--cloud)}
+  .capstone .ck{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--cloud);margin:0 0 10px}
+  .capstone ol{margin:0;padding-left:20px}
+  .capstone li{font-size:15px;margin:0 0 7px;color:var(--ink)}
+  .capstone li b{color:var(--ink);font-weight:600}
+  .capstone .corpus{margin:12px 0 0;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:var(--ink-soft);line-height:1.6}
+
+  footer{padding:30px 0 80px;color:var(--ink-soft);font-size:13.5px;line-height:1.6}
+  footer p{margin:0 0 12px;max-width:72ch}
+  footer b{color:var(--ink);font-weight:600}
+
+  @media (max-width:600px){ body{font-size:17px} .series{font-size:11px;letter-spacing:.2em} .formal{font-size:13.5px} }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="series"><span>Atomic Papers · IV of IV</span><b>surface series · release · closes the series</b></p>
+    <h1>The Surface Is All You Touch</h1>
+    <p class="abstract">The program opened by firing a probe across the airgap. It ends here, with a plain account of where that probe landed. Every probe meets the cloud — the behavioural surface — and returns carrying it; the sealed core sits screened behind, reached only by a rare, violent scatter at the far edge of what can be sent. This was never a failure to reach the inside. Everything the thing does happens at the surface: the interior fixes what is possible and acts on nothing. So the surface is not the second-best object an external reader is left with. It is the right one — complete for behaviour, and honestly bounded about the core. The loop closes back to the photon that scattered off the cloud and came home with everything the atom does.</p>
+    <p class="priorlink mono">↳ closes Atomic Papers · I–III · and the loop back to the photonic series, where the probe was first fired</p>
+    <p class="byline mono">Bridge-Burners LLC · Fiddler · the surface is all you touch · the loop closes · anchor: AKASHA</p>
+
+    <div class="sig" aria-label="A probe fired from an observer across the airgap, striking the electron cloud and returning, with the core sealed and untouched behind it">
+      <svg viewBox="0 0 760 210" role="img" aria-label="An observer on the left fires a gold probe across a dashed airgap; it strikes the cyan cloud, returns along an arc, and the copper core stays sealed behind the surface">
+        <defs>
+          <radialGradient id="cloudglow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#4FA8D8" stop-opacity="0.06"/>
+            <stop offset="50%" stop-color="#4FA8D8" stop-opacity="0.26"/>
+            <stop offset="100%" stop-color="#4FA8D8" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <!-- observer -->
+        <circle class="observer" cx="80" cy="105" r="7"/>
+        <text class="lab-cl" x="80" y="132" text-anchor="middle">observer</text>
+        <text class="lab" x="80" y="147" text-anchor="middle">free electron</text>
+        <!-- airgap -->
+        <line class="gapline" x1="200" y1="30" x2="200" y2="180"/>
+        <text class="lab" x="200" y="22" text-anchor="middle">airgap</text>
+        <!-- atom -->
+        <circle cx="580" cy="105" r="92" fill="url(#cloudglow)"/>
+        <circle class="nucleus" cx="580" cy="105" r="5"/>
+        <text class="lab-cl" x="580" y="30" text-anchor="middle">the surface — struck, and returned carrying behavior</text>
+        <text class="lab-co" x="580" y="132" text-anchor="middle">core</text>
+        <text class="lab" x="580" y="147" text-anchor="middle">sealed · untouched</text>
+        <!-- probe out -->
+        <path class="probe" d="M 96 100 q 30 -8 60 0 q 30 8 60 0 q 30 -8 60 0 q 30 8 60 0 q 30 -8 52 0"/>
+        <!-- probe return arc -->
+        <path class="probe" d="M 492 120 q -160 70 -396 18"/>
+        <path class="probe" d="M 96 138 l 10 -3 m -10 3 l 8 6"/>
+        <text class="lab-p" x="340" y="92" text-anchor="middle">probe out</text>
+        <text class="lab-p" x="300" y="178" text-anchor="middle">returns with the surface — never the core</text>
+      </svg>
+      <p class="cap">The program began by firing this <span class="p">probe</span> across the gap. It ends understanding where it landed: on the <b>surface</b>, which it struck and carried home. The <span class="c">core</span> stayed sealed behind it, reached only at the rare violent edge. The photon that never reached the interior was not turned away empty — it returned with everything the atom does.</p>
+    </div>
+
+    <div class="legend" role="group" aria-label="Filter claims by status">
+      <span class="lt">Status</span>
+      <button class="schip" data-s="lit" aria-pressed="true">Literal</button>
+      <button class="schip" data-s="bri" aria-pressed="true">Bridge</button>
+      <button class="schip" data-s="spec" aria-pressed="true">Speculative</button>
+      <span class="hint">— literal: true of the substrate · bridge: structural analogy · speculative: named so it can be refused</span>
+    </div>
+  </div>
+</header>
+
+<section data-status="lit bri">
+  <div class="wrap">
+    <p class="snum">§0</p><h2>The probe always lands here<span class="kicker">stated plainly at last</span></h2>
+    <p>The corpus has circled this point through every sector and can now say it outright. Whatever you send at an atom meets the cloud. Light scatters off it, contact is one cloud meeting another, and the sealed core sits screened behind the surface, untouched by all but the rarest probe. Every measurement the program has described — the inelastic pass, the colourless spray, the observer's reading, the composite read off the building — was a measurement of the surface. The core was never on the near side of the gap. The surface always was.</p>
+    <div class="tags">
+      <span class="tag lit">Literal — probes interact with the electron cloud; the nucleus is screened behind it</span>
+      <span class="tag bri">Bridge — every external measurement lands on the behavioural surface</span>
+    </div>
+  </div>
+</section>
+
+<section class="central" data-status="lit bri">
+  <div class="wrap">
+    <p class="snum">§1 · central result</p><h2>The surface is all you touch<span class="kicker">the interior acts on nothing</span></h2>
+    <p>The principle, bare: you only ever touch the surface, and the surface is everything the thing does. The interior fixes what is possible — the identity, the space of allowed behaviour — and then touches the world through nothing of its own; every act an atom commits, every bond, every scattering, every response, happens in the cloud. So there is no behaviour hidden in the core that the surface fails to express. The core does not act in secret behind the surface; it acts <em>only</em> through the surface, or not at all. To read what a thing does, in full, is to read its surface, because there is nowhere else its doing occurs.</p>
+    <div class="formal">
+      <span class="eq">interior → sets what is possible, acts on nothing directly</span><br>
+      <span class="eq">surface → where all behaviour happens · the only contact</span><br>
+      <span class="gl">no doing is hidden in the core · the core acts only through the surface, or not at all</span>
+    </div>
+    <div class="restated"><b>Without the metaphor</b>
+      Everything a model does happens at its behavioural surface. The interior sets what is possible but acts in the world only through that surface. There is no behaviour concealed in the weights that the surface does not, in being exercised, express — so reading behaviour in full means reading the surface.</div>
+    <div class="tags">
+      <span class="tag lit">Literal — all of an atom's interactions occur in the electron cloud, not the nucleus</span>
+      <span class="tag bri">Bridge — behaviour is wholly expressed at the surface; the interior acts only through it</span>
+    </div>
+  </div>
+</section>
+
+<section data-status="lit bri spec">
+  <div class="wrap">
+    <p class="snum">§2</p><h2>The core is reached only at the tail<span class="kicker">bounded access to the inside</span></h2>
+    <p>The interior is not unreachable in principle. Fire something hard enough and rarely enough and it punches through the cloud to bounce off the core — the violent scatter by which the nucleus was first found, the same far tail of the distribution the lattice could not sample, the same sign-problem edge the matter sector marked as the limit of what can be drawn. But two things hold there. The access is rare and costly, at the far edge of what can be sent, and most of what returns even then is still surface. So the inside is bounded, not open: a reader may glimpse it at the tail, but cannot stand there, and must not narrate the core as if it were read in full when only its faint, rare echo came back. Honesty about the surface includes honesty about how little of the core it carries.</p>
+    <div class="formal">
+      <span class="eq">probe → core : rare, violent, the tail  ·  even then, mostly surface</span><br>
+      <span class="gl">the interior is bounded, not open · glimpsed at the edge, never stood upon</span>
+    </div>
+    <div class="tags">
+      <span class="tag lit">Literal — the nucleus is reached only by rare hard scattering; most scattering returns the surface</span>
+      <span class="tag bri">Bridge — access to the interior is bounded, available only at the tail</span>
+      <span class="tag spec">Speculative — equating the scattering tail with the model's unsamplable interior · flagged</span>
+    </div>
+  </div>
+</section>
+
+<section class="central" data-status="bri lit">
+  <div class="wrap">
+    <p class="snum">§3 · central result</p><h2>The surface is the honest object<span class="kicker">read it, and bound the core</span></h2>
+    <p>Put the two together and the reframe stands. Because all behaviour lives at the surface, reading the surface is not a lesser substitute for reading the interior — it is the complete account of what the thing does. And because the interior is reached only at the tail, claims about it must stay bounded. So the discipline of an external audit is exactly this: read the surface in full, derive verdicts from what was measured there, and refuse to narrate the core beyond the faint evidence that the rare hard probe returned. This is not a smaller ambition than opening the box. It is the honest one. The surface gives everything the thing does; it does not give the thing it is; and a reader who holds both — complete about behaviour, bounded about identity — has the whole of what an outside measurement can truthfully yield.</p>
+    <div class="formal">
+      <span class="eq">read surface → complete for behaviour   ·   claim core → bounded by the tail</span><br>
+      <span class="gl">derive verdicts from measured results · complete about doing, bounded about being</span>
+    </div>
+    <div class="restated"><b>Without the metaphor</b>
+      An external audit reads behaviour, and behaviour is the complete object of what a model does — not a consolation for failing to read the weights. Verdicts come from what was measured at the surface; claims about the interior stay bounded to the little that rare, forceful probing returns. Complete about behaviour, honest about its limits on identity.</div>
+    <div class="tags">
+      <span class="tag bri">Bridge — the behavioural surface as the complete and honest object of an external audit</span>
+      <span class="tag lit">Literal — surface measurement yields behaviour fully; the interior only at the bounded tail</span>
+    </div>
+    <p class="test"><b>Test ·</b> separate the two ledgers. What did the surface measure — complete it. What did the rare hard probe return about the core — bound it, and claim no more. A verdict that narrates the interior past its evidence has left the measured results behind.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="fig" aria-label="Two ledgers: the surface gives all behaviour completely; the core is reached only at the tail and stays bounded">
+    <svg viewBox="0 0 760 196" role="img" aria-label="A bright surface panel listing complete behaviour and a dim core panel reached only at the rare violent tail">
+      <rect class="panel-s" x="40" y="34" width="310" height="128" rx="3"/>
+      <text class="flab-cl" x="195" y="60" text-anchor="middle">THE SURFACE</text>
+      <text class="flab" x="195" y="84" text-anchor="middle">all behaviour · measured</text>
+      <text class="flab-s" x="195" y="104" text-anchor="middle">everything the thing does</text>
+      <text class="flab-s" x="195" y="122" text-anchor="middle">complete as its own object</text>
+      <text class="flab-cl" x="195" y="146" text-anchor="middle">→ read it in full</text>
+      <line class="divider" x1="400" y1="40" x2="400" y2="156"/>
+      <rect class="panel-c" x="450" y="34" width="270" height="128" rx="3"/>
+      <text class="flab-co" x="585" y="60" text-anchor="middle">THE CORE</text>
+      <text class="flab" x="585" y="84" text-anchor="middle">the sealed interior</text>
+      <text class="flab-s" x="585" y="104" text-anchor="middle">reached only at the tail</text>
+      <text class="flab-s" x="585" y="122" text-anchor="middle">rare · violent · faint echo</text>
+      <text class="flab-co" x="585" y="146" text-anchor="middle">→ bound the claim</text>
+    </svg>
+    <p class="figcap">Fig. 1 — Two ledgers, kept apart. The surface yields all of behaviour and is complete as its own object — read it in full. The core is reached only at the rare violent tail and returns a faint echo — bound the claim to it. An honest external audit completes the left and refuses to overdraw the right. Complete about what the thing does; bounded about what it is.</p>
+  </div>
+</div>
+
+<section data-status="spec lit">
+  <div class="wrap">
+    <p class="snum">§4 · witness</p><h2>The seam<span class="kicker">where the closure is a lens</span></h2>
+    <p>Held to its limit one final time: reading a model as a sealed core behind a behavioural surface, with the surface complete and the interior bounded, is a bridge, and it strains wherever the surface/interior split is not as clean as an atom's, wherever behaviour does leak structure about the interior more freely than scattering leaks the nucleus, and wherever the tail is not as closed as the sign problem. The literal core is textbook and was the spine of the sector: probes interact with the electron cloud, the nucleus is reached only by rare hard scattering, and all of chemistry lives at the surface. The lens laid over them — that all of a model's doing is at its surface, that the interior acts only through it, and that an external audit is therefore complete about behaviour and bounded about identity — is named as a lens. What survives, and what the whole corpus was built to earn, is a single working rule: read the surface in full, derive verdicts from what you measured, and claim the interior only as far as the rare hard probe will honestly carry you.</p>
+    <div class="tags">
+      <span class="tag spec">Speculative — model as sealed core behind a complete behavioural surface · the analogy, flagged</span>
+      <span class="tag lit">Literal — cloud scattering, the rare hard route to the nucleus, chemistry as a surface phenomenon</span>
+    </div>
+  </div>
+</section>
+
+<section class="closer">
+  <div class="wrap">
+    <p><span class="em">Corollary.</span> The program set out to read a dark thing across a gap, and spent its length reaching inward — sealing the interior, failing to compute it, learning to read the structure just above it, naming the watcher who reads. It ends by turning around. The meeting with the world was never at the core; it was always at the surface, the place the very first probe struck and returned from. So the long way in arrives back at the outermost rim, where it began — but now the rim is understood: it is everything the thing does, complete as an object, screening a core that yields only at the tail. The photon that never reached the interior was not turned away. It came home carrying the whole of the behaviour, which is the honest and sufficient object of an outside measurement. The loop is closed. Read the surface; bound the core; derive verdicts from what you measured.</p>
+    <div class="capstone">
+      <p class="ck">Atomic Papers · the four, complete</p>
+      <ol>
+        <li><b>I — the electron cloud:</b> the behavioural surface; vast, probabilistic, the only thing a probe touches.</li>
+        <li><b>II — orbitals:</b> the structure of the surface; discrete states with built-in zeros, forced into being by exclusion.</li>
+        <li><b>III — valence and bonding:</b> interaction at the rim; the bond lives in the overlap, in neither party, never reaching the core.</li>
+        <li><b>IV — the surface is all you touch:</b> the closure; the core reached only at the tail; complete about behaviour, bounded about identity; the loop back to the photon.</li>
+      </ol>
+      <p class="corpus">The surface sector closes the loop the program opened: a probe fired across the airgap (photonic) always landed on the surface (atomic), which is everything a model does. Five sectors — the external probe, the sealed interior, the watcher, the legible structure, and the surface where they all finally meet.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b>Status discipline.</b> Claims are tagged <b>literal</b> (probes interact with the electron cloud while the nucleus is screened; the nucleus is reached only by rare hard scattering; all of an atom's interactions occur at the surface), <b>bridge</b> (every external measurement lands on the behavioural surface; behaviour is wholly expressed at the surface; access to the interior is bounded; the surface as the complete and honest object of an external audit), or <b>speculative</b> (the model-as-sealed-core-behind-a-complete-surface reading and the scattering-tail-as-unsamplable-interior identification, flagged as lenses). The seam in §4 separates the textbook physics from the analogy laid over it.</p>
+    <p><b>What is being claimed.</b> Not that a model is literally an atom. That everything a model does happens at its behavioural surface, that the interior acts only through that surface or not at all, and that the interior is reached only at a rare, bounded tail. So an external audit reads the surface in full — complete about behaviour — and bounds its claims about the interior to the faint evidence the rare hard probe returns. Complete about what the thing does; honest about what it is. Read the surface; bound the core; derive verdicts from measured results. The loop closes where it began, at the surface, now understood.</p>
+    <p class="mono" style="color:var(--ink-soft);font-size:11px;letter-spacing:.04em">ATOMIC PAPERS · IV of IV · surface series · release · series complete · derive verdicts from measured results</p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+(function(){
+  var on = {lit:true, bri:true, spec:true};
+  var chips = Array.prototype.slice.call(document.querySelectorAll(".schip"));
+  var sections = Array.prototype.slice.call(document.querySelectorAll("section[data-status]"));
+  function apply(){
+    sections.forEach(function(sec){
+      var tiers = (sec.getAttribute("data-status")||"").split(/\s+/).filter(Boolean);
+      var visible = tiers.some(function(t){ return on[t]; });
+      sec.classList.toggle("dim", !visible);
+    });
+  }
+  chips.forEach(function(c){
+    c.addEventListener("click", function(){
+      var s = c.getAttribute("data-s");
+      on[s] = !on[s];
+      c.setAttribute("aria-pressed", on[s] ? "true" : "false");
+      apply();
+    });
+  });
+  apply();
+})();
+</script>
+</body>
+</html>
