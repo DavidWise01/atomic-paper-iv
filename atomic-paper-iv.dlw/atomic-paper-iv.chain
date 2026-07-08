@@ -4,6 +4,6 @@ slug  : atomic-paper-iv
 seal  : 51144f507e466fa59d9ce0c7e1b89157b839416a6754be0e2a9f9fba0de4e10e
 prev  : 81f16b2a59760d3e76a31daeb5d5880299a38b34e537cb1d09c24f150c0df629
 link  : 68f92baf8182ffdf6106b206d58bcad5656789be59dd39ca2a7cab4ca8122946
-head  : 3447d3a0533aaf1e29a8bdc67a9774884fb3ae9dbc8a17064b7a008ca3c4ec90
+head  : 13f9ace173ef2e60af38912ba329b4afcb5a38b84a0e4495e8d30327f8c99cc2
 
 — the tether: link = sha256(index|slug|seal|prev). the chain head commits to the whole corpus.
