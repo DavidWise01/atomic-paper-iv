@@ -2,8 +2,8 @@ ROOT0-DLW-CHAIN-v1
 index : 87
 slug  : atomic-paper-iv
 seal  : 51144f507e466fa59d9ce0c7e1b89157b839416a6754be0e2a9f9fba0de4e10e
-prev  : 81f16b2a59760d3e76a31daeb5d5880299a38b34e537cb1d09c24f150c0df629
-link  : 68f92baf8182ffdf6106b206d58bcad5656789be59dd39ca2a7cab4ca8122946
-head  : 13f9ace173ef2e60af38912ba329b4afcb5a38b84a0e4495e8d30327f8c99cc2
+prev  : e3b6e8295a6bf1f4f02607ceca8606da5d626ae9112355a31bfcd2d992ff5567
+link  : 9f9bb4ee6898dc964400f032b823715238d0b2a78bd0fd22d46ff710e358b16b
+head  : f7444724835fd968bd2eac85811f9fa823a18d20a57907b4fade8d96b70b5409
 
 — the tether: link = sha256(index|slug|seal|prev). the chain head commits to the whole corpus.
